@@ -40,110 +40,11 @@
     cursor: pointer;
     touch-action: manipulation;
   }
-  .help-bar {
-    position: sticky;
-    top: 0;
-    z-index: 30;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: calc(10px + env(safe-area-inset-top)) 18px 6px;
-  }
-  .help-open {
-    width: 100%;
-    min-height: 44px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    background: #fff;
-    border: 3px solid #b9ddf3;
-    box-shadow: 0 3px 0 #b9ddf3;
-    font-weight: 800;
-    font-size: 15px;
-    color: #1f6feb;
-    text-align: center;
-  }
-  .help-sheet {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    background: rgba(36, 50, 74, 0.42);
-    padding: calc(12px + env(safe-area-inset-top)) 12px calc(12px + env(safe-area-inset-bottom));
-    place-items: center;
-  }
-  .help-sheet.on { display: grid; }
-  .help-card {
-    width: min(100%, 540px);
-    max-height: min(88vh, 760px);
-    overflow: auto;
-    background: var(--card);
-    border: 4px solid #7ec8f0;
-    box-shadow: 0 10px 0 #7ec8f0;
-    border-radius: 32px;
-    padding: 20px 16px 16px;
-    -webkit-user-select: text;
-    user-select: text;
-  }
-  .help-card h2 {
-    margin: 0 0 8px;
-    font-size: clamp(22px, 6vw, 28px);
-    letter-spacing: -0.03em;
-    color: #1f6feb;
-  }
-  .help-card p {
-    margin: 0 0 14px;
-    color: var(--muted);
-    font-size: 16px;
-    line-height: 1.4;
-    overflow-wrap: anywhere;
-  }
-  .help-card ol {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 10px;
-  }
-  .help-card li {
-    display: grid;
-    grid-template-columns: 36px minmax(0, 1fr);
-    gap: 10px;
-    align-items: start;
-    background: #fff;
-    border: 3px solid #d7ebf8;
-    border-radius: 20px;
-    padding: 12px;
-    font-size: 15px;
-    line-height: 1.45;
-    font-weight: 650;
-  }
-  .help-card li span { min-width: 0; overflow-wrap: anywhere; }
-  .help-card b {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
-    background: #ffe56a;
-    color: var(--ink);
-    font-size: 18px;
-  }
-  .help-close {
-    width: 100%;
-    min-height: 52px;
-    margin-top: 16px;
-    border-radius: 999px;
-    background: #3cba6f;
-    color: #fff;
-    border: 3px solid #249655;
-    box-shadow: 0 5px 0 #249655;
-    font-weight: 800;
-    font-size: 20px;
-  }
   #app {
     max-width: 760px;
     margin: 0 auto;
-    min-height: calc(100% - 54px);
-    padding: 8px 18px calc(22px + env(safe-area-inset-bottom));
+    min-height: 100%;
+    padding: calc(12px + env(safe-area-inset-top)) 18px calc(22px + env(safe-area-inset-bottom));
   }
   .top {
     display: flex;
@@ -152,6 +53,12 @@
     gap: var(--space);
     min-height: 52px;
     margin-bottom: var(--gap);
+  }
+  .menu-title {
+    margin: 0;
+    font-size: clamp(32px, 7vw, 44px);
+    letter-spacing: -0.04em;
+    color: #1f6feb;
   }
   .ghost {
     min-height: 48px;
@@ -228,7 +135,7 @@
     letter-spacing: 0.06em;
     text-align: center;
   }
-  .go:active, .tile:active, .ghost:active, .word:active, .help-open:active, .help-close:active { transform: translateY(2px); }
+  .go:active, .tile:active, .ghost:active, .word:active { transform: translateY(2px); }
   .tile {
     padding: 18px 18px 20px;
     display: flex;
@@ -309,14 +216,6 @@
     margin: 0;
   }
   .spell i { font-style: normal; }
-  .listen {
-    min-height: 52px;
-    padding: 0 18px;
-    border-radius: 999px;
-    background: #fff3cc;
-    border: 3px solid #f0b429;
-    font-weight: 800;
-  }
   .stage {
     min-height: 38vh;
     display: grid;
@@ -346,6 +245,10 @@
     letter-spacing: 0;
     line-height: 1.35;
   }
+  .syll.long {
+    font-size: clamp(44px, 11vw, 92px);
+    gap: 0.28em;
+  }
   .syll span {
     display: inline-block;
     color: inherit;
@@ -357,12 +260,11 @@
     gap: var(--space);
     margin-top: 2px;
   }
-  .picture-btn { width: 100%; margin-top: var(--gap); }
-  .actions .go, .actions .ghost { flex: 1; min-width: 0; }
+  .actions .go { flex: 1; min-width: 0; }
   .prompt {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: var(--space);
     background: white;
     border: 4px solid #ef6d7a;
@@ -381,8 +283,7 @@
     min-width: 0;
     flex: 1;
   }
-  .prompt .listen { flex: 0 0 auto; }
-  .prompt strong {
+  .prompt strong, .target-chip {
     min-width: 72px;
     max-width: 46%;
     min-height: 72px;
@@ -394,7 +295,24 @@
     place-items: center;
     overflow-wrap: anywhere;
     text-align: center;
+    border-radius: 18px;
+    transition: color 0.15s ease, background 0.15s ease;
   }
+  .target-chip.hidden {
+    background: #d7ebf8 !important;
+    color: transparent !important;
+  }
+  .peek-btn {
+    flex: 0 0 auto;
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: #fff;
+    border: 3px solid #b9ddf3;
+    font-weight: 800;
+    box-shadow: 0 4px 0 #b9ddf3;
+  }
+  .peek-btn:active { transform: translateY(2px); }
   .score {
     font-weight: 800;
     color: var(--muted);
@@ -551,12 +469,8 @@
   }
   .start-bar .hint { margin: 0 0 10px; }
   .go:disabled { opacity: 0.4; }
-  body.help-on .start-bar { visibility: hidden; }
   @media (max-width: 430px) {
-    .actions { flex-direction: column; }
     .actions .go { min-height: 72px; font-size: 28px; }
-    .prompt { flex-wrap: wrap; }
-    .prompt .listen { width: 100%; }
   }
   @media (prefers-reduced-motion: reduce) {
     .bubble.shake, .balloon.shake { animation: none; }
@@ -564,37 +478,7 @@
 </style>
 </head>
 <body>
-<div class="help-bar">
-  <button type="button" class="help-open" id="helpOpen">Poslechnout nefunguje?</button>
-</div>
-<div class="help-sheet" id="helpSheet">
-  <div class="help-card" role="dialog" aria-labelledby="helpTitle">
-    <h2 id="helpTitle">Zvuk na iPhonu a iPadu</h2>
-    <p>Když Poslechnout nic neřekne, zkontroluj toto v Nastavení:</p>
-    <ol>
-      <li><b>1</b><span>Zvedni hlasitost. Na iPhonu vypni tichý režim (vypínač na boku nesmí být červený). Na iPadu zvedni hlasitost v ovládacím centru.</span></li>
-      <li><b>2</b><span>Nastavení → Zpřístupnění → Mluvený obsah. Zapni „Čtení výběru“.</span></li>
-      <li><b>3</b><span>Pak Hlasy → Čeština a stáhni hlas (třeba Zuzana).</span></li>
-      <li><b>4</b><span>Otevři stránku v Safari, ne v Messengeru nebo WhatsAppu.</span></li>
-      <li><b>5</b><span>Zavři Safari úplně a otevři stránku znovu. Pak znovu klepni na Poslechnout.</span></li>
-    </ol>
-    <button type="button" class="help-close" id="helpClose">Hotovo</button>
-  </div>
-</div>
-<div id="app">
-  <section class="start">
-    <div>
-      <h1>Čtení</h1>
-      <p class="lead">Vyber písmena a pak START.</p>
-    </div>
-    <div class="letters-row">
-      <div class="chip l-A">A</div>
-      <div class="chip l-L">L</div>
-      <div class="chip l-M">M</div>
-      <div class="chip l-E">E</div>
-    </div>
-  </section>
-</div>
+<div id="app"></div>
 <script>
 const CONTENT = [
   {
@@ -620,6 +504,29 @@ const CONTENT = [
     say: "é",
     words: [{ text: "ementál", say: "ementál", picture: "emental" }]
   }
+];
+
+/** Delší česká slova do slabikového čtení (zobrazí se jen když jsou vybraná všechna písmena). */
+const SYLLABLE_WORDS = [
+  { text: "máma", say: "máma" },
+  { text: "mama", say: "mama" },
+  { text: "ála", say: "ála" },
+  { text: "ala", say: "ala" },
+  { text: "lama", say: "lama" },
+  { text: "malá", say: "malá" },
+  { text: "mala", say: "mala" },
+  { text: "ale", say: "ale" },
+  { text: "ela", say: "ela" },
+  { text: "alma", say: "alma" },
+  { text: "lela", say: "lela" },
+  { text: "leme", say: "leme" },
+  { text: "mále", say: "mále" },
+  { text: "male", say: "male" },
+  { text: "auto", say: "auto" },
+  { text: "luk", say: "luk" },
+  { text: "míč", say: "míč" },
+  { text: "lem", say: "lem" },
+  { text: "mel", say: "mel" }
 ];
 
 const ALPHABET = [
@@ -668,6 +575,8 @@ const ALPHABET = [
 ];
 
 const COLORS = ["#d84b3c", "#2f7098", "#2d8b5c", "#c47d08", "#6d4ea3", "#c45c7a"];
+const WIN_GOAL = 15;
+const TARGET_PEEK_MS = 2000;
 
 const PICTURES = {
   auto: `<svg viewBox="0 0 200 140" aria-hidden="true">
@@ -710,13 +619,12 @@ const PICTURES = {
   </svg>`
 };
 
-let screen = "start";
+let screen = "menu";
 let selected = loadSelected();
 let currentLetter = "A";
 let bag = [];
 let letterBag = [];
 let shownLetter = "A";
-let showPicture = false;
 let syllable = { text: "MA", parts: ["M", "A"], say: "ma" };
 let loop = 0;
 let bubbles = [];
@@ -729,29 +637,11 @@ let syllBest = loadNumber("cteni-best-slabiky");
 let syllBalloonBest = loadNumber("cteni-best-balon-slabiky");
 let won = false;
 let audioCtx = null;
+let targetPeekTimer = 0;
+let targetVisible = false;
 
 const app = document.getElementById("app");
-const helpSheet = document.getElementById("helpSheet");
 app.addEventListener("click", onClick);
-document.getElementById("helpOpen").addEventListener("click", () => {
-  helpSheet.classList.add("on");
-  document.body.classList.add("help-on");
-});
-document.getElementById("helpClose").addEventListener("click", () => {
-  helpSheet.classList.remove("on");
-  document.body.classList.remove("help-on");
-});
-helpSheet.addEventListener("click", (event) => {
-  if (event.target === helpSheet) {
-    helpSheet.classList.remove("on");
-    document.body.classList.remove("help-on");
-  }
-});
-if (window.speechSynthesis) speechSynthesis.getVoices();
-if (location.hash === "#help") {
-  helpSheet.classList.add("on");
-  document.body.classList.add("help-on");
-}
 render();
 
 function loadSelected() {
@@ -789,6 +679,10 @@ function activeLetters() {
   return ALPHABET.filter((item) => selected.has(item.letter)).map((item) => item.letter);
 }
 
+function hasLetters() {
+  return selected.size > 0;
+}
+
 function roundPool() {
   if (unit === "syllable") {
     const list = buildSyllables().map((item) => item.text);
@@ -802,12 +696,8 @@ function tokenColor(text) {
   return letterColor(found ? found.parts[0] : text);
 }
 
-function tokenSay(text) {
-  const found = buildSyllables().find((item) => item.text === text);
-  return found ? found.say : letterOf(text).say;
-}
-
 function tokenWidth(text) {
+  if (text.length > 4) return 188;
   if (text.length > 2) return 156;
   if (text.length > 1) return 136;
   return 100;
@@ -838,14 +728,81 @@ function paintTarget() {
   const paint = document.getElementById("target");
   if (!paint) return;
   paint.textContent = target;
+  paint.style.fontSize = target.length > 4 ? "28px" : target.length > 2 ? "34px" : target.length > 1 ? "40px" : "52px";
+  if (!targetVisible) {
+    paint.style.background = "#d7ebf8";
+    paint.style.color = "transparent";
+    return;
+  }
   paint.style.background = tokenColor(target);
-  paint.style.fontSize = target.length > 2 ? "34px" : target.length > 1 ? "40px" : "52px";
+  paint.style.color = "white";
+}
+
+function clearTargetPeek() {
+  if (!targetPeekTimer) return;
+  clearTimeout(targetPeekTimer);
+  targetPeekTimer = 0;
+}
+
+function setTargetVisible(visible) {
+  targetVisible = visible;
+  const paint = document.getElementById("target");
+  if (!paint) return;
+  paint.classList.toggle("hidden", !visible);
+  paint.setAttribute("aria-hidden", visible ? "false" : "true");
+  paintTarget();
+}
+
+function revealTarget(hideAfterMs) {
+  clearTargetPeek();
+  setTargetVisible(true);
+  if (hideAfterMs > 0) {
+    targetPeekTimer = setTimeout(() => {
+      targetPeekTimer = 0;
+      setTargetVisible(false);
+    }, hideAfterMs);
+  }
+}
+
+function scheduleTargetPeek() {
+  revealTarget(TARGET_PEEK_MS);
 }
 
 function nextTarget() {
   const choices = roundPool().filter((item) => item !== target);
   target = choices.length ? choices[Math.floor(Math.random() * choices.length)] : target;
-  paintTarget();
+  scheduleTargetPeek();
+}
+
+function splitWordToParts(word, letters) {
+  const order = [...letters].sort((a, b) => b.length - a.length);
+  const upper = word.toLocaleUpperCase("cs");
+  const parts = [];
+  for (let i = 0; i < upper.length;) {
+    const letter = order.find((item) => upper.startsWith(item, i));
+    if (!letter) return null;
+    parts.push(letter);
+    i += letter.length;
+  }
+  return parts.length ? parts : null;
+}
+
+function syllableWordsFor(letters) {
+  const seen = new Set();
+  const list = [];
+  const add = (text, say) => {
+    const parts = splitWordToParts(text, letters);
+    if (!parts || parts.length < 3) return;
+    const key = parts.join("");
+    if (seen.has(key)) return;
+    seen.add(key);
+    list.push({ text: key, parts, say });
+  };
+  for (const entry of SYLLABLE_WORDS) add(entry.text, entry.say);
+  for (const item of CONTENT) {
+    for (const word of item.words) add(word.text, word.say);
+  }
+  return list;
 }
 
 function buildSyllables() {
@@ -854,20 +811,30 @@ function buildSyllables() {
   const consonants = letters.filter((letter) => !letterOf(letter).vowel);
   if (vowels.length && consonants.length) {
     const list = [];
+    const seen = new Set();
     for (const consonant of consonants) {
       for (const vowel of vowels) {
         const parts = [consonant, vowel];
         const text = parts.join("");
         list.push({ text, parts, say: text.toLocaleLowerCase("cs") });
+        seen.add(text);
+      }
+    }
+    for (const word of syllableWordsFor(letters)) {
+      if (!seen.has(word.text)) {
+        list.push(word);
+        seen.add(word.text);
       }
     }
     return list;
   }
-  return letters.map((letter) => ({
+  const solo = letters.map((letter) => ({
     text: letter,
     parts: [letter],
     say: letterOf(letter).say
   }));
+  const words = syllableWordsFor(letters).filter((word) => !solo.some((item) => item.text === word.text));
+  return solo.concat(words);
 }
 
 function saveBest() {
@@ -887,27 +854,6 @@ function saveBalloonBest() {
   balloonBest = score;
   try { localStorage.setItem("cteni-best-balon", String(balloonBest)); }
   catch (e) {}
-}
-
-function pickVoice() {
-  return speechSynthesis.getVoices().find((item) => item.lang && item.lang.toLowerCase().startsWith("cs"));
-}
-
-function speak(text) {
-  if (!window.speechSynthesis) return;
-  const play = () => {
-    const line = new SpeechSynthesisUtterance(text);
-    line.lang = "cs-CZ";
-    line.rate = 0.82;
-    const voice = pickVoice();
-    if (voice) line.voice = voice;
-    speechSynthesis.cancel();
-    speechSynthesis.speak(line);
-  };
-  if (!speechSynthesis.getVoices().length) {
-    speechSynthesis.addEventListener("voiceschanged", play, { once: true });
-  }
-  play();
 }
 
 function blip(freq) {
@@ -955,12 +901,14 @@ function stopGame() {
   cancelAnimationFrame(loop);
   loop = 0;
   bubbles = [];
+  clearTargetPeek();
+  targetVisible = false;
 }
 
 function render() {
   stopGame();
   app.innerHTML = {
-    start: renderStart,
+    settings: renderSettings,
     menu: renderMenu,
     letters: renderLetters,
     letter: renderLetter,
@@ -972,7 +920,7 @@ function render() {
   if (screen === "balloons") setupBalloons();
 }
 
-function renderStart() {
+function renderSettings() {
   const buttons = ALPHABET.map((item) => {
     const on = selected.has(item.letter) ? " on" : "";
     const long = item.long ? " long" : "";
@@ -981,13 +929,13 @@ function renderStart() {
   }).join("");
   return `<section class="start">
     <div>
-      <h1>Čtení</h1>
-      <p class="lead">Vyber písmena. Dlouhá mají pod sebou tečku.</p>
+      <h1>Písmena</h1>
+      <p class="lead">Vyber písmena pro čtení a hry. Dlouhá mají pod sebou tečku.</p>
     </div>
     <div class="picker">${buttons}</div>
     <div class="start-bar">
       <p class="hint" id="picked">${selected.size} vybraných</p>
-      <button class="go" data-action="menu" ${selected.size ? "" : "disabled"}>START</button>
+      <button class="go" data-action="menu" ${selected.size ? "" : "disabled"}>Hotovo</button>
     </div>
   </section>`;
 }
@@ -997,7 +945,10 @@ function renderMenu() {
   const preview = letters.slice(0, 8).join(" ") + (letters.length > 8 ? "…" : "");
   const first = buildSyllables()[0];
   return `<section>
-    <div class="top"><button class="ghost" data-action="start">Písmena</button></div>
+    <div class="top">
+      <h1 class="menu-title">Čtení</h1>
+      <button type="button" class="ghost" data-action="settings">Nastavení</button>
+    </div>
     <div class="grid">
       <button class="tile" data-action="letters">
         <span class="badge">Aa</span>
@@ -1040,19 +991,9 @@ function nextReadingLetter() {
   if (!list.length) return;
   if (!letterBag.length) letterBag = list.slice().sort(() => Math.random() - 0.5);
   shownLetter = letterBag.pop();
-  showPicture = false;
 }
 
 function renderLetters() {
-  const item = letterOf(shownLetter);
-  const cards = item.words.map((word) => `<article class="word">
-      ${PICTURES[word.picture] || ""}
-      <p class="spell">${coloredWord(word.text, item.letter)}</p>
-      <button class="listen" data-action="say" data-text="${word.say}">Poslechnout</button>
-    </article>`).join("");
-  const pictureButton = item.words.length && !showPicture
-    ? `<button class="ghost picture-btn" data-action="show-picture">Ukaž obrázek</button>`
-    : "";
   return `<section>
     <div class="top">
       <button class="ghost" data-action="menu">Zpět</button>
@@ -1060,11 +1001,8 @@ function renderLetters() {
     </div>
     <div class="stage"><div class="board"><p class="syll"><span>${shownLetter}</span></p></div></div>
     <div class="actions">
-      <button class="ghost" data-action="say" data-text="${item.say}">Poslechnout</button>
       <button class="go" data-action="next-letter">Další</button>
     </div>
-    ${pictureButton}
-    ${showPicture ? `<div class="words ${item.words.length > 1 ? "two" : ""}">${cards}</div>` : ""}
   </section>`;
 }
 
@@ -1073,12 +1011,10 @@ function renderLetter() {
   const cards = item.words.map((word, index) => `<article class="word">
       ${PICTURES[word.picture] || ""}
       <p class="spell">${coloredWord(word.text, item.letter)}</p>
-      <button class="listen" data-action="say" data-text="${word.say}">Poslechnout</button>
     </article>`).join("");
   return `<section>
     <div class="top">
       <button class="ghost" data-action="letters">Zpět</button>
-      <button class="listen" data-action="say" data-text="${item.say}">Poslechnout ${item.letter}</button>
     </div>
     <div class="hero" style="background:${letterColor(item.letter)}">${item.letter}</div>
     <div class="words ${item.words.length > 1 ? "two" : ""}">${cards}</div>
@@ -1086,15 +1022,15 @@ function renderLetter() {
 }
 
 function renderSyllables() {
+  const long = syllable.parts.length > 3 ? " long" : "";
   const parts = syllable.parts.map((part) => `<span>${part}</span>`).join("");
   return `<section>
     <div class="top">
       <button class="ghost" data-action="menu">Zpět</button>
       <strong>Přečti</strong>
     </div>
-    <div class="stage"><div class="board"><p class="syll">${parts}</p></div></div>
+    <div class="stage"><div class="board"><p class="syll${long}">${parts}</p></div></div>
     <div class="actions">
-      <button class="ghost" data-action="say" data-text="${syllable.say}">Poslechnout</button>
       <button class="go" data-action="next-syllable">Další</button>
     </div>
   </section>`;
@@ -1115,8 +1051,8 @@ function renderSkyGame(record) {
       <span class="score">Skóre <b id="score">0</b> · nejlepší ${record}</span>
     </div>
     <div class="prompt">
-      <p>Chyť<strong id="target" style="color:white;background:${tokenColor(target)};border-radius:18px">${target}</strong></p>
-      <button class="listen" data-action="say-target">Poslechnout</button>
+      <p>Chyť<strong id="target" class="target-chip hidden" aria-hidden="true"></strong></p>
+      <button type="button" class="peek-btn" data-action="peek-target">Ukaž</button>
     </div>
     <div id="sky"></div>
     <p class="status" id="status"></p>
@@ -1130,12 +1066,11 @@ function setupGame() {
   if (!letters.length) return;
   target = letters[Math.floor(Math.random() * letters.length)];
   const sky = document.getElementById("sky");
-  paintTarget();
+  scheduleTargetPeek();
   const width = sky.clientWidth;
   const height = sky.clientHeight;
   const count = unit === "syllable" ? 5 : 7;
   bubbles = Array.from({ length: count }, (_, index) => makeBubble(sky, width, height, index < 2 ? target : null));
-  speakTarget();
   let last = performance.now();
   const step = (now) => {
     const dt = Math.min(0.033, (now - last) / 1000);
@@ -1213,7 +1148,7 @@ function setupBalloons() {
   if (!letters.length) return;
   target = letters[Math.floor(Math.random() * letters.length)];
   const sky = document.getElementById("sky");
-  paintTarget();
+  scheduleTargetPeek();
   const width = sky.clientWidth;
   const height = sky.clientHeight;
   bubbles = [0, 1, 2, 3].map((index) => makeBalloon(
@@ -1223,7 +1158,6 @@ function setupBalloons() {
     index === 0 ? target : null,
     height - 20 - index * (height / 4)
   ));
-  speakTarget();
   let last = performance.now();
   const step = (now) => {
     if (won) return;
@@ -1320,7 +1254,7 @@ function popBalloon(el) {
     el.classList.remove("shake");
     void el.offsetWidth;
     el.classList.add("shake");
-    status.textContent = "To je " + letter;
+    status.textContent = "Zkus jiné";
     blip(180);
     return;
   }
@@ -1334,15 +1268,14 @@ function popBalloon(el) {
     bubbles[index].el.remove();
     bubbles.splice(index, 1);
   }
-  if (score >= 5) {
+  if (score >= WIN_GOAL) {
     won = true;
     cancelAnimationFrame(loop);
     sky.insertAdjacentHTML("beforeend", `<div class="win">
       <h2>Výborně!</h2>
-      <p>Chytil jsi 5 ${unit === "syllable" ? "slabik" : "balónků"}.</p>
+      <p>Chytil jsi ${WIN_GOAL} ${unit === "syllable" ? "slabik" : "balónků"}.</p>
       <button class="go" data-action="${unit === "syllable" ? "syll-balloons" : "balloons"}">Hrát znovu</button>
     </div>`);
-    speak("Výborně");
     return;
   }
   nextTarget();
@@ -1352,11 +1285,6 @@ function popBalloon(el) {
   }
   bubbles.push(makeBalloon(sky, sky.clientWidth, sky.clientHeight, null, sky.clientHeight - 8));
   status.textContent = "Výborně!";
-  speakTarget();
-}
-
-function speakTarget() {
-  speak("Chyť " + tokenSay(target));
 }
 
 function catchLetter(el) {
@@ -1367,7 +1295,7 @@ function catchLetter(el) {
     el.classList.remove("shake");
     void el.offsetWidth;
     el.classList.add("shake");
-    status.textContent = "To je " + letter;
+    status.textContent = "Zkus jiné";
     blip(180);
     return;
   }
@@ -1378,16 +1306,15 @@ function catchLetter(el) {
   const index = bubbles.findIndex((item) => item.el === el);
   if (index >= 0) bubbles.splice(index, 1);
   el.remove();
-  if (score >= 5) {
+  if (score >= WIN_GOAL) {
     won = true;
     cancelAnimationFrame(loop);
     const sky = document.getElementById("sky");
     sky.insertAdjacentHTML("beforeend", `<div class="win">
       <h2>Výborně!</h2>
-      <p>Chytil jsi 5 ${unit === "syllable" ? "slabik" : "písmen"}.</p>
+      <p>Chytil jsi ${WIN_GOAL} ${unit === "syllable" ? "slabik" : "písmen"}.</p>
       <button class="go" data-action="${unit === "syllable" ? "syll-game" : "game"}">Hrát znovu</button>
     </div>`);
-    speak("Výborně");
     return;
   }
   nextTarget();
@@ -1409,7 +1336,6 @@ function catchLetter(el) {
     }
   }
   status.textContent = "Výborně!";
-  speakTarget();
 }
 
 function onClick(event) {
@@ -1430,13 +1356,9 @@ function onClick(event) {
     if (go) go.disabled = selected.size === 0;
     return;
   }
-  if (action === "menu" && selected.size === 0) return;
-  if (action === "say") {
-    speak(node.dataset.text);
-    return;
-  }
-  if (action === "say-target") {
-    speakTarget();
+  if (action === "menu" && !hasLetters()) return;
+  if (action === "peek-target") {
+    revealTarget(TARGET_PEEK_MS);
     return;
   }
   if (action === "catch") {
@@ -1444,6 +1366,7 @@ function onClick(event) {
     return;
   }
   if (action === "letters") {
+    if (!hasLetters()) return;
     nextReadingLetter();
     screen = "letters";
     render();
@@ -1454,12 +1377,8 @@ function onClick(event) {
     render();
     return;
   }
-  if (action === "show-picture") {
-    showPicture = true;
-    render();
-    return;
-  }
   if (action === "syllables") {
+    if (!hasLetters()) return;
     nextSyllable();
     screen = "syllables";
     render();
@@ -1471,24 +1390,28 @@ function onClick(event) {
     return;
   }
   if (action === "game") {
+    if (!hasLetters()) return;
     unit = "letter";
     screen = "game";
     render();
     return;
   }
   if (action === "balloons") {
+    if (!hasLetters()) return;
     unit = "letter";
     screen = "balloons";
     render();
     return;
   }
   if (action === "syll-game") {
+    if (!hasLetters()) return;
     unit = "syllable";
     screen = "game";
     render();
     return;
   }
   if (action === "syll-balloons") {
+    if (!hasLetters()) return;
     unit = "syllable";
     screen = "balloons";
     render();
