@@ -1,0 +1,120 @@
+"use strict";
+
+// Hyphens mark syllables. A word is offered only when all of its letters are selected.
+// After editing, run: node tools/check-words.js
+const WORDS = [
+  // M A Á E É L
+  "má", "mám", "má-ma", "mé", "E-ma", "E-la", "la-ma", "ma-lá", "ma-lé", "me-le", "mák", "a-le",
+
+  // + I Í O Ó P S T
+  "Mí-la", "li-li-e", "O-ta", "ma-lo", "má-lo", "mi-mo", "lom", "pi-la", "pi-lot", "po-le",
+  "po-ma-lu", "pes", "pi-je", "po-pel", "pa-ta", "pas-ta", "Pe-pa", "E-mil", "le-pí", "pí-pá",
+  "ma-pa", "ma-so", "mí-sa", "se-le", "sem", "si-lo", "sí-la", "o-sel", "o-sa", "les",
+  "list", "lis-to-pad", "lo-pa-ta", "tam", "tá-ta", "te-ta", "te-le", "tep-lo", "to-pol", "tma",
+  "lam-pa", "met-la", "tla-pa", "sa-lám", "sa-lát", "slá-ma", "só-lo", "mó-da", "pa-pír", "To-máš",
+  "li-mo-ná-da", "sto-pa", "sto-li-ce", "les-ní", "Lo-la", "Ti-na", "Mi-lan",
+
+  // + U Ú Ů J Y Ý N D V
+  "au-to", "u-mí", "lu-pa", "pu-sa", "pu-pen", "sůl", "sto-ly", "osm", "ú-kol", "úl",
+  "jó-ga", "je", "já", "ja-ro", "je-len", "je-den", "jed-na", "jíd-lo", "Ja-na", "Jan",
+  "my", "vy", "ty", "ma-lý", "mý-dlo", "mlýn", "sýr", "lí-ný", "no-vý", "no-vi-ny",
+  "nos", "nu-la", "ne-se", "ne-be", "on", "o-na", "o-ni", "o-no", "I-lo-na", "A-le-na",
+  "dům", "do-my", "do-ma", "dub", "da-le-ko", "den", "de-set", "dý-ně", "dí-ra", "Da-na",
+  "vo-da", "vo-sa", "vla-sy", "ví-la", "ví-tr", "va-na", "vol-no", "vo-lá", "vy-so-ký", "E-va",
+  "I-va", "A-dam", "Pa-vel", "Petr", "Tom", "no-ha", "nu-dle", "sto-py", "pa-vouk", "lev",
+
+  // + K Z R B H
+  "ko-lo", "ko-za", "kos", "kost", "ko-sa", "ko-pec", "ko-le-no", "ki-no", "kni-ha", "vlak",
+  "ka-bát", "ka-ma-rád", "kluk", "ko-ru-na", "lou-ka", "lo-ko-mo-ti-va", "lé-kař", "kyt-ka", "Len-ka", "mlé-ko",
+  "zi-ma", "zá-mek", "zub", "zu-by", "ze-lí", "ze-bra", "ko-zel", "ru-ka", "ry-ba", "rak",
+  "rok", "rá-no", "ro-bot", "ro-sa", "kapr", "mrak", "mr-kev", "most", "med", "me-loun",
+  "mo-týl", "ves-ni-ce", "Ra-dek", "Zu-za-na", "On-dra", "bo-ta", "bo-ty", "ba-lón", "ba-nán", "be-ran",
+  "brý-le", "bra-tr", "bu-ben", "bá-bov-ka", "bí-lá", "ho-ra", "hrad", "hr-nek", "hu-sa", "had",
+  "hla-va", "ho-di-ny", "hou-ba", "ho-lub", "Hon-za", "Ha-na", "roh-lík", "za-hra-da", "ja-ho-da", "ja-ho-dy",
+  "du-ha", "no-hy", "o-ves", "o-ko", "ok-no", "u-mý-vá", "vel-ký", "mod-rá", "ze-le-ná", "dva",
+
+  // + C CH Č Š Ž Ř Ě Ď Ť Ň F G
+  "ci-bu-le", "ces-ta", "cukr", "ru-ce", "o-vo-ce", "o-pi-ce", "ov-ce", "slun-ce", "u-li-ce", "sle-pi-ce",
+  "cha-ta", "chléb", "chla-pec", "cho-bot", "u-cho", "mu-cha", "mou-cha", "stře-cha", "čaj", "če-pi-ce",
+  "čís-lo", "čáp", "čoč-ka", "koč-ka", "ko-láč", "klíč", "čte", "šá-la", "ša-ty", "šiš-ka",
+  "ško-la", "šnek", "šip-ka", "ka-še", "myš", "u-ši", "šest", "Va-šek", "hruš-ka", "žá-ba",
+  "ži-ra-fa", "žlu-tá", "žid-le", "žel-va", "rů-že", "nůž", "ře-ka", "ře-pa", "tři", "dře-vo",
+  "mo-ře", "ku-ře", "dve-ře", "va-ří", "pět", "pě-na", "věž", "vě-ta", "mě-síc", "měs-to",
+  "o-běd", "bě-ží", "dě-ti", "dí-tě", "ko-tě", "de-vět", "Lá-ďa", "Na-ďa", "loď-ka", "Ká-ťa",
+  "la-buť", "tu-leň", "kůň", "ko-ně", "fa-zo-le", "fén", "te-le-fon", "gu-ma", "Ol-ga", "gól",
+
+  // slovesa a další
+  "ma-lu-je", "spí", "je-de", "jde", "ve-ze", "ská-če", "le-tí", "pla-ve", "se-dí", "pí-še",
+  "zpí-vá", "kres-lí", "sví-tí", "pe-če", "ba-bič-ka", "dě-de-ček", "za-jíc", "sý-ko-ra", "slon", "strom",
+  "ses-tra", "stůl", "stan", "suk-ně", "kaš-tan", "tu-li-pán", "ú-te-rý", "so-va", "Ma-těj", "ja-blíč-ko"
+];
+
+// Each sentence is offered only when all of its letters are selected.
+const SENTENCES = [
+  "Máma mele.",
+  "Ema mele.",
+  "Ela mele.",
+  "Míla mele.",
+  "Emil mele.",
+  "Ota mele.",
+  "Pepa lepí.",
+  "Máma lepí.",
+  "Máma má maso.",
+  "Máma mele maso.",
+  "Pepa má mísu.",
+  "Táta lepí.",
+  "Teta mele mák.",
+  "Ota má sele.",
+  "Ema má mámu.",
+  "Máma má Emu.",
+  "Máma mele mák.",
+  "Ema mele mák.",
+  "Lama je malá.",
+  "Ela je malá.",
+  "Táta má pilu.",
+  "Pes pije.",
+  "Pepa pije mléko.",
+  "Ema pije mléko.",
+  "Máma peče koláč.",
+  "Táta peče chléb.",
+  "Ota má kolo.",
+  "Eva má sovu.",
+  "Lev spí.",
+  "Kos zpívá.",
+  "Vosa letí.",
+  "Ryba plave.",
+  "Kočka pije mléko.",
+  "Pes má kost.",
+  "Máma nese mísu.",
+  "Dana má balón.",
+  "Tom jí meloun.",
+  "Zuzana má kytku.",
+  "Jana jí jahody.",
+  "Míla má lopatu.",
+  "Les je malý.",
+  "Dům je velký.",
+  "Slunce svítí.",
+  "Na louce je koza.",
+  "Ve vodě je ryba.",
+  "Ema a Ota jdou domů.",
+  "Táta jde do lesa.",
+  "Babička peče bábovku.",
+  "Děti jdou do školy.",
+  "Hana má žlutou čepici.",
+  "Žába skáče do vody.",
+  "Pavel má nové boty.",
+  "Na stole je sýr.",
+  "Honza jí rohlík.",
+  "Kůň běží.",
+  "Lenka čte knihu.",
+  "Sova sedí na stromě.",
+  "Vlak jede.",
+  "Osel má uši.",
+  "Myš je malá.",
+  "Tom a Eva sedí.",
+  "Máma vaří oběd.",
+  "Táta čte noviny.",
+  "Pes a kočka spí.",
+  "Ota maluje.",
+  "Tom má psa."
+];

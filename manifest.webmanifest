@@ -1,0 +1,13 @@
+{
+  "name": "Čtení",
+  "short_name": "Čtení",
+  "lang": "cs",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#e7f7ff",
+  "theme_color": "#9adfff",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

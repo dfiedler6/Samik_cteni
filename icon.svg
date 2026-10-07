@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Kniha">
+  <rect width="512" height="512" rx="112" fill="#9adfff"/>
+  <circle cx="400" cy="108" r="52" fill="#ffd24a"/>
+  <ellipse cx="256" cy="402" rx="148" ry="24" fill="#7ec8f0" opacity="0.35"/>
+  <path fill="#2f7ec4" d="M108 196c0-10 8-18 18-18h260c10 0 18 8 18 18v196c0 10-8 18-18 18H126c-10 0-18-8-18-18V196z"/>
+  <path fill="#fffdf8" stroke="#7ec8f0" stroke-width="10" d="M132 204 248 188v196l-116-14z"/>
+  <path fill="#fff" stroke="#7ec8f0" stroke-width="10" d="M264 188l116 16v182l-116 14z"/>
+  <path fill="#1f5fbf" d="M236 184h40v212h-40z"/>
+  <path fill="none" stroke="#d5e8f6" stroke-width="8" stroke-linecap="round" d="M156 248h68M156 280h58M156 312h48"/>
+  <path fill="none" stroke="#d5e8f6" stroke-width="8" stroke-linecap="round" d="M288 248h68M288 280h58M288 312h48"/>
+  <path fill="#ffd24a" d="M248 300c0-6 4-10 8-10s8 4 8 10-4 14-8 14-8-8-8-14z"/>
+</svg>
