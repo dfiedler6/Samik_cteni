@@ -1,7 +1,7 @@
 "use strict";
 
 // Network first, so changes pushed to GitHub show up right away; the cache is only an offline fallback.
-const CACHE = "cteni-v1";
+const CACHE = "cteni-v2";
 const FILES = [
   "./",
   "index.html",

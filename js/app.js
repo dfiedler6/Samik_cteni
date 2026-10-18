@@ -119,8 +119,7 @@ function showToast(message) {
 }
 
 function voiceReady() {
-  const status = Speech.status();
-  return status === "ok" || status === "checking";
+  return Speech.status() === "ok";
 }
 
 function say(text) {

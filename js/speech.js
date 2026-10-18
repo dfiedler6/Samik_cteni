@@ -4,6 +4,7 @@
 // fallback voice is usually English and would mispronounce everything.
 const Speech = (() => {
   const supported = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  const LANG = "cs-CZ";
   let voice = null;
   let checked = false;
   let rate = 0.8;
@@ -11,19 +12,41 @@ const Speech = (() => {
   let pending = null;
 
   function isCzech(item) {
-    return (item.lang || "").replace("_", "-").toLowerCase().startsWith("cs");
+    const lang = (item.lang || "").replace("_", "-").toLowerCase();
+    if (lang.startsWith("cs") || lang.startsWith("cz")) return true;
+    const name = (item.name || "").toLowerCase();
+    return /zuzana|jakub|vlasta|cs[- ]?cz|čeština|czech/.test(name);
   }
 
   function choose() {
-    const czech = speechSynthesis.getVoices().filter(isCzech);
+    const voices = speechSynthesis.getVoices();
+    const czech = voices.filter(isCzech);
     if (!czech.length) return null;
+
+    const pick = (re) => czech.find((item) => re.test(item.name));
+    const zuzana = pick(/zuzana/i);
+    if (zuzana) return zuzana;
+    const jakub = pick(/jakub/i);
+    if (jakub) return jakub;
+
     const local = czech.filter((item) => item.localService);
     const pool = local.length ? local : czech;
-    return pool.find((item) => /zuzana/i.test(item.name)) || pool[0];
+    return pool[0];
+  }
+
+  function syncVoice() {
+    const picked = choose();
+    if (!picked) {
+      voice = null;
+      return;
+    }
+    const voices = speechSynthesis.getVoices();
+    voice = voices.find((item) => item.name === picked.name && item.voiceURI === picked.voiceURI) || picked;
+    if (!isCzech(voice)) voice = null;
   }
 
   function refresh() {
-    voice = choose();
+    syncVoice();
     if (voice || speechSynthesis.getVoices().length) checked = true;
     if (checked && pending) {
       const text = pending;
@@ -35,14 +58,17 @@ const Speech = (() => {
   if (supported) {
     refresh();
     speechSynthesis.addEventListener("voiceschanged", refresh);
+    setTimeout(refresh, 400);
+    setTimeout(refresh, 1200);
     setTimeout(() => {
+      refresh();
       checked = true;
       if (pending) {
         const text = pending;
         pending = null;
         say(text);
       }
-    }, 2500);
+    }, 2800);
   }
 
   function say(text) {
@@ -50,6 +76,8 @@ const Speech = (() => {
       onMissing();
       return;
     }
+    speechSynthesis.getVoices();
+    syncVoice();
     if (!checked) {
       pending = text;
       return;
@@ -60,7 +88,7 @@ const Speech = (() => {
     }
     const line = new SpeechSynthesisUtterance(lower(text));
     line.voice = voice;
-    line.lang = voice.lang.replace("_", "-");
+    line.lang = LANG;
     line.rate = rate;
     if (speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
     speechSynthesis.speak(line);
@@ -68,12 +96,15 @@ const Speech = (() => {
 
   return {
     say,
+    refresh,
     status() {
       if (!supported) return "unsupported";
+      syncVoice();
       if (voice) return "ok";
       return checked ? "missing" : "checking";
     },
     voiceName() {
+      syncVoice();
       return voice ? voice.name : "";
     },
     setRate(value) {
