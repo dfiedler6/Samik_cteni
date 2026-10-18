@@ -2,23 +2,25 @@
 
 // `say` is what the Czech voice reads for the letter on its own.
 // Short vowels must sound short ("a", not "á"), otherwise A and Á sound the same.
+// Long-vowel lines use the plain letter ("a s čárkou"), not "á s čárkou" — TTS often
+// reads "á" already as "a s čárkou" and would double the ending.
 const ALPHABET = [
   { letter: "A", say: "a", vowel: true },
-  { letter: "Á", say: "á s čárkou", vowel: true, long: true },
+  { letter: "Á", say: "a s čárkou", vowel: true, long: true },
   { letter: "B", say: "bé" },
   { letter: "C", say: "cé" },
   { letter: "Č", say: "čé" },
   { letter: "D", say: "dé" },
   { letter: "Ď", say: "ďé" },
   { letter: "E", say: "e", vowel: true },
-  { letter: "É", say: "é s čárkou", vowel: true, long: true },
+  { letter: "É", say: "e s čárkou", vowel: true, long: true },
   { letter: "Ě", say: "e s háčkem", vowel: true },
   { letter: "F", say: "ef" },
   { letter: "G", say: "gé" },
   { letter: "H", say: "há" },
   { letter: "CH", say: "chá" },
   { letter: "I", say: "i", vowel: true },
-  { letter: "Í", say: "í s čárkou", vowel: true, long: true },
+  { letter: "Í", say: "i s čárkou", vowel: true, long: true },
   { letter: "J", say: "jé" },
   { letter: "K", say: "ká" },
   { letter: "L", say: "el" },
@@ -26,7 +28,7 @@ const ALPHABET = [
   { letter: "N", say: "en" },
   { letter: "Ň", say: "eň" },
   { letter: "O", say: "o", vowel: true },
-  { letter: "Ó", say: "ó s čárkou", vowel: true, long: true },
+  { letter: "Ó", say: "o s čárkou", vowel: true, long: true },
   { letter: "P", say: "pé" },
   { letter: "R", say: "er" },
   { letter: "Ř", say: "eř" },
@@ -35,8 +37,8 @@ const ALPHABET = [
   { letter: "T", say: "té" },
   { letter: "Ť", say: "ťé" },
   { letter: "U", say: "u", vowel: true },
-  { letter: "Ú", say: "ú s čárkou", vowel: true, long: true },
-  { letter: "Ů", say: "ů s kroužkem", vowel: true, long: true },
+  { letter: "Ú", say: "u s čárkou", vowel: true, long: true },
+  { letter: "Ů", say: "u s kroužkem", vowel: true, long: true },
   { letter: "V", say: "vé" },
   { letter: "Y", say: "ypsilon", vowel: true },
   { letter: "Ý", say: "ypsilon s čárkou", vowel: true, long: true },
